@@ -7,7 +7,7 @@ aws_region = {
 
 container_repository_name = {
   # Probably we could use same ecr for non-prod
-  sandbox = "magicskunk"
+  sandbox = "magicskunk_sandbox"
   dev     = "magicskunk"
   stage   = "magicskunk"
   prod    = "magicskunk_prod"
