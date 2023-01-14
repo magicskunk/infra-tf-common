@@ -1,3 +1,5 @@
+env_code = "sandbox"
+
 aws_region = {
   sandbox = "eu-central-1"
   dev     = "eu-central-1"
