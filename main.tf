@@ -1,5 +1,5 @@
 provider "aws" {
-  region = lookup(var.env_code, var.aws_region)
+  region = lookup(var.aws_region, var.env_code)
 
   default_tags {
     tags = {
@@ -14,5 +14,5 @@ module "container_repository" {
   source                    = "./modules/container-repository"
   organization_name         = var.organization_name
   project_name              = var.project_name
-  container_repository_name = lookup(var.env_code, var.container_repository_name)
+  container_repository_name = lookup(var.container_repository_name, var.env_code)
 }
