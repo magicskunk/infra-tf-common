@@ -1,12 +1,12 @@
 terraform {
 
-  cloud {
-    organization = "magicskunk"
-
-    workspaces {
-      name = "seventh-dev"
-    }
-  }
+#  cloud {
+#    organization = "magicskunk"
+#
+#    workspaces {
+#      name = "seventh-dev"
+#    }
+#  }
 
   required_providers {
     aws = {
