@@ -20,12 +20,12 @@ variable "env_code" {
 }
 
 variable "aws_region" {
-  type        = map(any)
+  type        = map(string)
   description = "Map of {env, aws_region}"
 }
 
 variable "container_repository_name" {
-  type        = map(any)
+  type        = map(string)
   description = "Map of {env, container_repo_name}"
 }
 
