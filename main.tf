@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 module "container_repository" {
-  source                    = "modules/container-repository"
+  source                    = "./modules/container-repository"
   organization_name         = var.organization_name
   project_name              = var.project_name
   container_repository_name = lookup(var.env_code, var.container_repository_name)
