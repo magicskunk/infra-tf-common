@@ -16,6 +16,7 @@ variable "project_name" {
 variable "env_code" {
   type        = string
   description = "Environment code. E.g. sandbox, dev, stage, qa, prod"
+  default     = "sandbox"
 }
 
 variable "aws_region" {
