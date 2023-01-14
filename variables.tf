@@ -1,3 +1,8 @@
+# https://developer.hashicorp.com/terraform/cloud-docs/run/run-environment
+# Terraform Cloud automatically injects the environment variables for each run:
+# E.g. TFC_CONFIGURATION_VERSION_GIT_BRANCH
+variable "TFC_RUN_ID" {}
+
 variable "organization_name" {
   type    = string
   default = "magicskunk"
@@ -19,7 +24,7 @@ variable "aws_region" {
 }
 
 variable "container_repository_name" {
-  type = map(any)
+  type        = map(any)
   description = "Map of {env, container_repo_name}"
 }
 
