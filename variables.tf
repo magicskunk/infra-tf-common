@@ -23,8 +23,8 @@ variable "aws_region" {
   description = "Map of {env, aws_region}"
 }
 
-variable "container_repository_name" {
-  type        = map(string)
-  description = "Map of {env, container_repo_name}"
+variable "container_repositories" {
+  type        = map(list(string))
+  description = "Map of {env, [container_repo_name]}"
 }
 

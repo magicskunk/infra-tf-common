@@ -1,5 +1,5 @@
 resource "aws_iam_openid_connect_provider" "github" {
-  url = "https://token.actions.githubusercontent.com"
+  url   = "https://token.actions.githubusercontent.com"
 
   client_id_list = [
     "sts.amazonaws.com",
@@ -11,8 +11,8 @@ resource "aws_iam_openid_connect_provider" "github" {
 }
 
 resource "aws_iam_role" "github_role" {
-  name        = "github_role"
-  description = "Allow github actions to interact with AWS via OIDC"
+  name        = "${var.env_code}_github_role"
+  description = "GitHub actions role used to interact with AWS via OIDC"
 
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
@@ -34,14 +34,50 @@ resource "aws_iam_role" "github_role" {
   })
 }
 
+resource "aws_iam_policy" "github_ecr_pull_push_access" {
+  name        = "${var.env_code}_github_ecr_pull_push_access"
+  description = "Allow pull & push to ecr policy"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "EcrGetAuthorizationToken",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr:GetAuthorizationToken"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "AllowEcrPull",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability"
+        ],
+        "Resource" : aws_iam_openid_connect_provider.github.arn
+      },
+      {
+        "Sid" : "AllowEcrPullPush",
+        "Effect" : "Allow",
+        "Action" : [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload"
+        ],
+        "Resource" : aws_iam_openid_connect_provider.github.arn
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "github_to_ecr_auth_token" {
   role       = aws_iam_role.github_role.name
-  policy_arn = aws_iam_policy.ecr_get_authorization_token_policy.arn
+  policy_arn = aws_iam_policy.github_ecr_pull_push_access.arn
 }
-
-resource "aws_iam_role_policy_attachment" "github_to_ecr_pull_push" {
-  role       = aws_iam_role.github_role.name
-  policy_arn = aws_iam_policy.ecr_pull_push_allowed_policy.arn
-}
-
-
