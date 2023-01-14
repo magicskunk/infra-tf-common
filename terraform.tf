@@ -1,12 +1,16 @@
 terraform {
 
-#  cloud {
-#    organization = "magicskunk"
-#
-#    workspaces {
-#      name = "seventh-dev"
-#    }
-#  }
+  # "The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a# configuration
+  # that contains a cloud block - for example, when a workspace is configured to use# a VCS provider
+  # directly - it ignores the block and behaves according to its own workspace settings."
+  # Therefore, we plan & apply against sandbox env from the CLI
+  cloud {
+    organization = "magicskunk"
+
+    workspaces {
+      name = "seventh-sandbox"
+    }
+  }
 
   required_providers {
     aws = {
