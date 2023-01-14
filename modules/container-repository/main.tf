@@ -11,30 +11,28 @@ resource "aws_ecr_repository" "main" {
   }
 }
 
-# do I need this env based?
-resource "aws_iam_policy" "aws_ecr_repository_main_pull_allowed_policy" {
-  name        = "ecr-pull-allowed-policy"
-  description = "Allow pull from ECR policy"
+# Looks like I'll need this per env
+resource "aws_iam_policy" "ecr_get_authorization_token_policy" {
+  name        = "ecr_get_authorization_token"
+  description = "Allow fetching of authorization token for ECR repo"
 
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Sid" : "AllowPull",
+        "Sid" : "EcrGetAuthorizationToken",
         "Effect" : "Allow",
         "Action" : [
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:GetAuthorizationToken"
         ],
-        "Resource" : aws_ecr_repository.main.arn
+        "Resource" : "*"
       }
     ]
   })
 }
 
-resource "aws_iam_policy" "aws_ecr_repository_main_pull_push_allowed_policy" {
-  name        = "ecr-pull-push-allowed-policy"
+resource "aws_iam_policy" "ecr_pull_push_allowed_policy" {
+  name        = "aws_ecr_repository_pull_push_allowed_policy"
   description = "Allow pull & push to ecr policy"
 
   policy = jsonencode({
