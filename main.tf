@@ -6,6 +6,8 @@ provider "aws" {
       Org         = var.organization_name
       Project     = var.project_name
       Environment = var.env_code
+      Terraform   = "true"
+      Source      = "seventh-infra-tf-common"
     }
   }
 }
@@ -15,4 +17,5 @@ module "container_repository" {
   project_name           = var.project_name
   container_repositories = lookup(var.container_repositories, var.env_code)
   env_code               = var.env_code
+  github_role_name       = "github_actions_${var.organization_name}"
 }

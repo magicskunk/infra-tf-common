@@ -1,3 +1,8 @@
+variable "organization_name" {
+  type    = string
+  default = "magicskunk"
+}
+
 variable "project_name" {
   type = string
 }
@@ -16,4 +21,8 @@ variable "tags" {
 variable "container_repositories" {
   type        = list(string)
   description = "List of the container repositories to provision"
+}
+
+variable "github_role_name" {
+  type    = string
 }

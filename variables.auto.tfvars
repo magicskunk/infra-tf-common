@@ -8,8 +8,8 @@ aws_region = {
 }
 
 container_repositories = {
-  sandbox = ["magicskunk_sandbox"]
-  dev     = ["magicskunk"]
-  stage   = ["magicskunk"]
-  prod    = ["magicskunk_prod"]
+  sandbox = ["seventh-sample-app"]
+  dev     = ["seventh-sample-app"]
+  stage   = ["seventh-sample-app"]
+  prod    = ["seventh-sample-app-prod"]
 }
