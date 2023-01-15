@@ -8,8 +8,8 @@ aws_region = {
 }
 
 container_repositories = {
-  sandbox = ["seventh-sample-app"]
-  dev     = ["seventh-sample-app"]
-  stage   = ["seventh-sample-app"]
+  sandbox = ["seventh-sample-app-sandbox"]
+  dev     = ["seventh-sample-app-dev"]
+  stage   = ["seventh-sample-app-stage"]
   prod    = ["seventh-sample-app-prod"]
 }
