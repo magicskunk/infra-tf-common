@@ -1,6 +1,6 @@
 resource "aws_iam_openid_connect_provider" "github" {
   url   = "https://token.actions.githubusercontent.com"
-
+  # provide flag "create provider"
   client_id_list = [
     "sts.amazonaws.com",
   ]
@@ -24,6 +24,11 @@ resource "aws_iam_role" "github_role" {
           Federated = aws_iam_openid_connect_provider.github.arn
         },
         Action    = "sts:AssumeRoleWithWebIdentity",
+#        condition {
+#      test     = "StringLike"
+#      variable = "token.actions.githubusercontent.com:sub"
+#      values   = ["repo:${var.organization}/${var.name}:*"]
+#      }
         Condition = {
           StringLike = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
@@ -77,7 +82,7 @@ resource "aws_iam_policy" "github_ecr_pull_push_access" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "github_to_ecr_auth_token" {
+resource "aws_iam_role_policy_attachment" "github_to_ecr_pull_push_access" {
   role       = aws_iam_role.github_role.name
   policy_arn = aws_iam_policy.github_ecr_pull_push_access.arn
 }
