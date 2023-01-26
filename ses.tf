@@ -40,7 +40,7 @@ resource "aws_route53_record" "spf_mail_from" {
   name    = aws_ses_domain_mail_from.ses_from.mail_from_domain
   type    = "TXT"
   ttl     = "600"
-  records = ["v=spf1 include:amazonses.com -all"]
+  records = ["v=spf1 include:amazonses.com ~all"]
 }
 
 resource "aws_route53_record" "spf_domain" {
@@ -48,5 +48,13 @@ resource "aws_route53_record" "spf_domain" {
   name    = var.email_from_domain
   type    = "TXT"
   ttl     = "600"
-  records = ["v=spf1 include:amazonses.com -all"]
+  records = ["v=spf1 include:amazonses.com ~all"]
+}
+
+resource "aws_route53_record" "mx_mail_from" {
+  zone_id = data.aws_route53_zone.primary.zone_id
+  name    = aws_ses_domain_mail_from.ses_from.mail_from_domain
+  type    = "MX"
+  ttl     = "600"
+  records = ["10 feedback-smtp.${lookup(var.aws_region, var.env_code)}.amazonses.com"]
 }
