@@ -28,3 +28,7 @@ variable "container_repositories" {
   description = "Map of {env, [container_repo_name]}"
 }
 
+variable "email_from_domain" {
+  type        = string
+  description = "Primary domain"
+}

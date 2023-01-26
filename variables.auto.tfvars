@@ -13,3 +13,5 @@ container_repositories = {
   stage   = ["seventh-sample-app-stage"]
   prod    = ["seventh-sample-app-prod"]
 }
+
+email_from_domain = "karambol.dev"
