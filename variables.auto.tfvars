@@ -14,4 +14,11 @@ container_repositories = {
   prod    = ["seventh-sample-app-prod"]
 }
 
-email_from_domain = "karambol.dev"
+primary_domain = "karambol.dev"
+
+email_from_domain = {
+  sandbox = "sandbox.karambol.dev"
+  dev     = "karambol.dev"
+  stage   = "stage.karambol.dev"
+  prod    = "prod.karambol.dev"
+}
