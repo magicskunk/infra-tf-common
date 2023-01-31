@@ -27,7 +27,6 @@ resource "aws_subnet" "public" {
   cidr_block        = var.public_subnet_cidr[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index % var.availability_zones_count]
 
-  # makes it public
   map_public_ip_on_launch = true
 
   tags = merge(var.tags, {
@@ -82,7 +81,7 @@ resource "aws_nat_gateway" "main" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
-  # route to igw for internet access
+  # route to igw for internet access (this makes associated subnet public)
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.main.id

@@ -6,7 +6,3 @@ output "container_repositories" {
 output "nat_gateway_public_ip" {
   value = module.vpc.nat_gateway_public_ip
 }
-
-output "nat_gateway_public_ip_cidr_block" {
-  value = module.vpc.nat_gateway_public_ip_cidr_block
-}
