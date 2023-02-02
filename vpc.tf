@@ -1,7 +1,4 @@
 locals {
-  cluster_name = lookup(var.cluster_name, lookup(var.aws_account, var.env_code))
-}
-locals {
   tags                = {}
   vpc_cidr            = "10.1.0.0/16"
   public_subnet_cidr  = ["10.1.0.0/20", "10.1.16.0/20"]

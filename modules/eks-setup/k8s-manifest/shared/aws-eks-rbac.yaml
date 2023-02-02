@@ -1,0 +1,20 @@
+# https://docs.aws.amazon.com/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions
+# https://docs.aws.amazon.com/eks/latest/userguide/security_iam_service-with-iam.html
+# https://github.com/kubernetes-sigs/aws-iam-authenticator
+# https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::847775666541:user/dejano
+      username: dejano
+      groups:
+        - system:masters
+  mapRoles: |
+    - rolearn: arn:aws:iam::847775666541:role/kubernetes_admin
+      username: kubernetes-admin
+      groups:
+        - system:masters

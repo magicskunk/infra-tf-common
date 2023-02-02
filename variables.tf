@@ -13,11 +13,6 @@ variable "project_name" {
   default = "seventh"
 }
 
-variable "aws_account" {
-  type        = map(string)
-  description = "Used aws account per environment code"
-}
-
 variable "env_code" {
   type        = string
   description = "Environment code. E.g. sandbox, dev, stage, qa, prod"

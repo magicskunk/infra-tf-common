@@ -1,11 +1,3 @@
-aws_account = {
-  shared  = "nonprod"
-  sandbox = "nonprod"
-  dev     = "nonprod"
-  stage   = "nonprod"
-  prod    = "prod"
-}
-
 aws_region = {
   shared  = "eu-central-1"
   sandbox = "eu-central-1"
@@ -33,7 +25,10 @@ email_from_domain = {
 }
 
 cluster_name = {
-  nonprod = "magicskunk_cluster_nonprod"
+  shared  = "magicskunk_cluster_shared"
+  sandbox = "magicskunk_cluster_sandbox"
+  dev     = "magicskunk_cluster_dev"
+  stage   = "magicskunk_cluster_stage"
   prod    = "magicskunk_cluster"
 }
 
