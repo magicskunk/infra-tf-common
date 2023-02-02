@@ -8,7 +8,7 @@ terraform {
     organization = "magicskunk"
 
     workspaces {
-      name = "seventh-sandbox"
+      name = "infra-tf-common-shared-cli"
     }
   }
 

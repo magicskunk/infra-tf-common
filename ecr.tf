@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "repository" {
-  for_each             = toset(var.container_repositories)
+  for_each             = toset(lookup(var.container_repositories, var.env_code))
   name                 = each.key
   image_tag_mutability = "MUTABLE"
   force_delete         = true
@@ -60,7 +60,7 @@ resource "aws_iam_policy" "github_ecr_pull_push_access" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "github_to_ecr_pull_push_access" {
-  role       = var.github_role_name
+resource "aws_iam_role_policy_attachment" "github_ecr_pull_push_access" {
+  role       = var.github_oidc_role_name
   policy_arn = aws_iam_policy.github_ecr_pull_push_access.arn
 }

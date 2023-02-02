@@ -13,14 +13,25 @@ variable "project_name" {
   default = "seventh"
 }
 
+variable "aws_account" {
+  type        = map(string)
+  description = "Used aws account per environment code"
+}
+
 variable "env_code" {
   type        = string
   description = "Environment code. E.g. sandbox, dev, stage, qa, prod"
+  default     = "shared"
 }
 
 variable "aws_region" {
   type        = map(string)
   description = "Map of {env, aws_region}"
+}
+
+variable "aws_az_count" {
+  type    = number
+  default = 2
 }
 
 variable "container_repositories" {
@@ -36,4 +47,17 @@ variable "primary_domain" {
 variable "email_from_domain" {
   type        = map(string)
   description = "'email from' domain per env"
+}
+
+variable "github_oidc_role_name" {
+  type    = string
+  default = "github_actions_magicskunk"
+}
+
+variable "cluster_name" {
+  type = map(string)
+}
+
+variable "deployment_flag" {
+  type = map(list(string))
 }
