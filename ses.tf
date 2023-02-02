@@ -3,6 +3,8 @@ data "aws_route53_zone" "primary" {
   private_zone = false
 }
 
+# TODO use deployment flags
+# TODO Move to static-repo
 resource "aws_ses_domain_identity" "ses_domain" {
   domain = lookup(var.email_from_domain, var.env_code)
 }

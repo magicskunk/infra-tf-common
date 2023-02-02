@@ -60,7 +60,11 @@ resource "aws_iam_policy" "github_ecr_pull_push_access" {
   })
 }
 
+data "aws_iam_role" "github_actions_oidc" {
+  name = var.github_oidc_role_name
+}
+
 resource "aws_iam_role_policy_attachment" "github_ecr_pull_push_access" {
-  role       = var.github_oidc_role_name
+  role       = data.aws_iam_role.github_actions_oidc.name
   policy_arn = aws_iam_policy.github_ecr_pull_push_access.arn
 }

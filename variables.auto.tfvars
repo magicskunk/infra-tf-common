@@ -7,7 +7,7 @@ aws_account = {
 }
 
 aws_region = {
-  shared = "eu-central-1"
+  shared  = "eu-central-1"
   sandbox = "eu-central-1"
   dev     = "eu-central-1"
   stage   = "eu-central-1"
@@ -15,7 +15,7 @@ aws_region = {
 }
 
 container_repositories = {
-  shared = ["seventh-sample-app-shared"]
+  shared  = ["seventh-sample-app-shared"]
   sandbox = ["seventh-sample-app-sandbox"]
   dev     = ["seventh-sample-app-dev"]
   stage   = ["seventh-sample-app-stage"]
@@ -25,9 +25,9 @@ container_repositories = {
 primary_domain = "karambol.dev"
 
 email_from_domain = {
-  shared = "karambol.dev"
+  shared  = "karambol.dev"
   sandbox = "sandbox.karambol.dev"
-  dev     = "karambol.dev"
+  dev     = "dev.karambol.dev"
   stage   = "stage.karambol.dev"
   prod    = "prod.karambol.dev"
 }
