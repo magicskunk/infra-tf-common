@@ -46,6 +46,8 @@ resource "aws_eks_node_group" "private_node_group" {
   node_role_arn   = aws_iam_role.eks_node.arn
   subnet_ids      = var.cluster_nodes_subnet_ids
 
+  # this config affects max pod size because of #ENIs
+  # https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt
   ami_type       = lookup(var.node_group, var.env_code).ami_type
   capacity_type  = lookup(var.node_group, var.env_code).capacity_type
   instance_types = lookup(var.node_group, var.env_code).instance_types

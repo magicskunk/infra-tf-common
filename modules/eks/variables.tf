@@ -41,7 +41,7 @@ variable "node_group" {
       capacity_type  = "ON_DEMAND"  # ON_DEMAND, SPOT
       instance_types = ["t2.micro"]
       disk_size      = 20
-      desired_size   = 2
+      desired_size   = 3 # need 3 nodes because t2.micro instance type has # of pods per node limited to 4 (cuz of max # of ENIs attached)
       max_size       = 5
       min_size       = 1
     }
