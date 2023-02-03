@@ -4,7 +4,7 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  aws_account_id  = data.aws_caller_identity.current.account_id
+  aws_account_id = data.aws_caller_identity.current.account_id
 }
 
 resource "aws_cloudwatch_log_group" "eks_cluster" {
@@ -21,10 +21,10 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks_cluster,
     aws_cloudwatch_log_group.eks_cluster
   ]
-  name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster.arn
+  name                      = var.cluster_name
+  role_arn                  = aws_iam_role.eks_cluster.arn
   enabled_cluster_log_types = ["api", "audit", "authenticator"]
-  version = "1.24"
+  version                   = "1.24"
 
   vpc_config {
     subnet_ids = var.cluster_subnet_ids
@@ -45,21 +45,21 @@ resource "aws_eks_node_group" "private_node_group" {
   node_group_name = "${var.cluster_name}-private-ng"
   node_role_arn   = aws_iam_role.eks_node.arn
   subnet_ids      = var.cluster_nodes_subnet_ids
-  # TODO move to vars
-  ami_type       = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM
-  capacity_type  = "ON_DEMAND"  # ON_DEMAND, SPOT
-  instance_types = ["t2.micro"]
-  disk_size      = 8
+
+  ami_type       = lookup(var.node_group, var.env_code).ami_type
+  capacity_type  = lookup(var.node_group, var.env_code).capacity_type
+  instance_types = lookup(var.node_group, var.env_code).instance_types
+  disk_size      = lookup(var.node_group, var.env_code).disk_size
 
   scaling_config {
-    desired_size = 2
-    max_size     = 4
-    min_size     = 1
+    desired_size = lookup(var.node_group, var.env_code).desired_size
+    max_size     = lookup(var.node_group, var.env_code).max_size
+    min_size     = lookup(var.node_group, var.env_code).min_size
   }
 
-#  update_config {
-#    max_unavailable = 2
-#  }
+  #  update_config {
+  #    max_unavailable = 2
+  #  }
 
   tags = {
     Name = var.cluster_name
@@ -68,12 +68,12 @@ resource "aws_eks_node_group" "private_node_group" {
 
 data "template_file" "config" {
   template = file("${path.module}/templates/config.tpl")
-  vars = {
-    certificate_data  = aws_eks_cluster.eks_cluster.certificate_authority[0].data
-    cluster_endpoint  = aws_eks_cluster.eks_cluster.endpoint
-    aws_region        = var.aws_region
-    cluster_name      = var.cluster_name
-    account_id        = local.aws_account_id
+  vars     = {
+    certificate_data = aws_eks_cluster.eks_cluster.certificate_authority[0].data
+    cluster_endpoint = aws_eks_cluster.eks_cluster.endpoint
+    aws_region       = var.aws_region
+    cluster_name     = var.cluster_name
+    account_id       = local.aws_account_id
   }
 }
 
