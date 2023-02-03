@@ -18,3 +18,10 @@ output "cluster_endpoint" {
 output "cluster_ca_certificate" {
   value = module.eks[0].cluster_ca_certificate
 }
+
+output "autoscaler" {
+  value = {
+    role = module.eks[0].autoscaler.role
+    oidc = module.eks[0].autoscaler.oidc
+  }
+}
