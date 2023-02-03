@@ -40,36 +40,36 @@ variable "node_group" {
       ami_type       = "AL2_x86_64" # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64, CUSTOM
       capacity_type  = "ON_DEMAND"  # ON_DEMAND, SPOT
       instance_types = ["t2.micro"]
-      disk_size      = 8
+      disk_size      = 20
       desired_size   = 2
-      max_size       = 4
+      max_size       = 5
       min_size       = 1
     }
     "dev" = {
       ami_type       = "AL2_x86_64"
       capacity_type  = "ON_DEMAND"
       instance_types = ["t2.micro"]
-      disk_size      = 8
+      disk_size      = 20
       desired_size   = 2
-      max_size       = 4
+      max_size       = 5
       min_size       = 1
     }
     "stage" = {
       ami_type       = "AL2_x86_64"
       capacity_type  = "ON_DEMAND"
       instance_types = ["t2.micro"]
-      disk_size      = 8
+      disk_size      = 20
       desired_size   = 2
-      max_size       = 4
+      max_size       = 5
       min_size       = 1
     }
     "prod" = {
       ami_type       = "AL2_x86_64"
       capacity_type  = "ON_DEMAND"
       instance_types = ["t2.micro"]
-      disk_size      = 8
+      disk_size      = 20
       desired_size   = 2
-      max_size       = 4
+      max_size       = 5
       min_size       = 1
     }
   }
