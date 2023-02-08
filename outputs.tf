@@ -4,7 +4,7 @@ output "nat_gateway_public_ip" {
 
 output "container_repositories" {
   description = "Urls to provisioned container repositories"
-  value = [for repository in aws_ecr_repository.repository : repository.repository_url]
+  value       = [for repository in aws_ecr_repository.repository : repository.repository_url]
 }
 
 output "cluster_name" {

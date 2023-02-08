@@ -1,5 +1,5 @@
 locals {
-  cluster_name           = lookup(var.cluster_name, var.env_code)
+  cluster_name = lookup(var.cluster_name, var.env_code)
 }
 
 provider "aws" {
@@ -24,5 +24,5 @@ module "eks" {
   aws_region               = lookup(var.aws_region, var.env_code)
   cluster_name             = lookup(var.cluster_name, var.env_code)
   cluster_subnet_ids       = concat(aws_subnet.public[*].id, aws_subnet.private[*].id)
-  cluster_nodes_subnet_ids = aws_subnet.private[*].id
+  cluster_nodes_subnet_ids = aws_subnet.public[*].id
 }

@@ -33,6 +33,7 @@ cluster_name = {
 }
 
 deployment_flag = {
-  vpc = ["shared"]
-  eks = ["shared"]
+  vpc     = ["shared"]
+  vpc_nat = []
+  eks     = ["shared"]
 }

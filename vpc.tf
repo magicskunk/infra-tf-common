@@ -1,14 +1,15 @@
 locals {
   tags                = {}
   vpc_cidr            = "10.1.0.0/16"
-  public_subnet_cidr  = ["10.1.0.0/20", "10.1.16.0/20"]
-  private_subnet_cidr = ["10.1.32.0/20", "10.1.48.0/20"]
+  public_subnet_cidr  = ["10.1.0.0/20", "10.1.16.0/20", "10.1.32.0/20"]
+  private_subnet_cidr = []
   public_subnet_tags  = {
     "kubernetes.io/role/elb"                      = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "owned"
   }
   deployment_flag = {
-    vpc = contains(lookup(var.deployment_flag, "vpc"), var.env_code)
+    vpc     = contains(lookup(var.deployment_flag, "vpc"), var.env_code)
+    vpc_nat = contains(lookup(var.deployment_flag, "vpc_nat"), var.env_code)
   }
 }
 
@@ -75,9 +76,9 @@ resource "aws_internet_gateway" "main" {
 
 # Create NAT Gateway in public subnet. It is used in private subnets to allow services to connect to the internet.
 resource "aws_eip" "nat_gateway_ip" {
-  count = local.deployment_flag.vpc ? 1 : 0
+  count = local.deployment_flag.vpc_nat ? 1 : 0
 
-  vpc   = true
+  vpc = true
 
   tags = merge(local.tags, {
     Name = "${var.env_code}_${var.organization_name}_ng_ip"
@@ -85,7 +86,7 @@ resource "aws_eip" "nat_gateway_ip" {
 }
 
 resource "aws_nat_gateway" "main" {
-  count = local.deployment_flag.vpc ? 1 : 0
+  count = local.deployment_flag.vpc_nat ? 1 : 0
 
   # elastic ip, always reachable
   allocation_id = aws_eip.nat_gateway_ip[count.index].id
@@ -127,7 +128,7 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_route_table" "private" {
-  count = local.deployment_flag.vpc ? 1 : 0
+  count = local.deployment_flag.vpc_nat ? 1 : 0
 
   vpc_id = aws_vpc.main[0].id
 
@@ -144,7 +145,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  count = local.deployment_flag.vpc ? length(local.private_subnet_cidr) : 0
+  count = local.deployment_flag.vpc_nat ? length(local.private_subnet_cidr) : 0
 
   route_table_id = aws_route_table.private[0].id
   subnet_id      = element(aws_subnet.private[*].id, count.index)

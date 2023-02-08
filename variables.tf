@@ -26,7 +26,7 @@ variable "aws_region" {
 
 variable "aws_az_count" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "container_repositories" {

@@ -88,6 +88,7 @@ resource "aws_iam_role_policy_attachment" "node_ecr" {
 ################
 # https://www.kubecost.com/kubernetes-autoscaling/kubernetes-cluster-autoscaler/
 # https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html#cluster-autoscaler
+# https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html
 data "tls_certificate" "cluster" {
   url = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
 }
@@ -103,8 +104,13 @@ data "aws_iam_policy_document" "autoscaler_role_policy" {
     effect  = "Allow"
 
     condition {
+#      "StringEquals": {
+###        "$oidc_provider:aud": "sts.amazonaws.com",
+#        "$oidc_provider:sub": "system:serviceaccount:$namespace:$service_account"
+#      }
       test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.cluster.url, "https://", "")}:sub"
+      # shared-autoscaler-aws-cluster-autoscaler is a cluster role within k8s. This allows k8s to interact with the aws
       values   = ["system:serviceaccount:kube-system:shared-autoscaler-aws-cluster-autoscaler"]
     }
 
